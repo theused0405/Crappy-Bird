@@ -7,9 +7,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jay.crappybird.CrappyBird;
 
 
+
+
 public class MenuState extends State {
     private Texture background;
     private Texture playBtn;
+
+    public static final int WIDTH = 1080;
+    public static final int HEIGHT = 1920;
+
+
 
     public MenuState(GameStateManager gsm) {
         super(gsm);
@@ -32,13 +39,10 @@ public class MenuState extends State {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-
         //Draw the background
-        sb.draw(background,0, 0, CrappyBird.WIDTH, CrappyBird.HEIGHT);
-
+        sb.draw(background ,0, 0, WIDTH, HEIGHT);
         //Draw the play button
-        sb.draw(playBtn, (CrappyBird.WIDTH / 2) - (playBtn.getWidth() / 2), CrappyBird.HEIGHT / 2);
-
+        sb.draw(playBtn ,300, 700);
         //Finish off rendering
         sb.end();
     }

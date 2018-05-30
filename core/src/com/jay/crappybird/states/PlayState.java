@@ -3,12 +3,15 @@ package com.jay.crappybird.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.jay.crappybird.CrappyBird;
 import com.jay.crappybird.sprites.Tube;
 import com.jay.crappybird.sprites.Bird;
+
+import static com.jay.crappybird.CrappyBird.WIDTH;
 import static com.jay.crappybird.sprites.Tube.TUBE_WIDTH;
 
 public class PlayState extends State {
@@ -21,10 +24,19 @@ public class PlayState extends State {
     private Vector2 groundPos1, groundPos2;
     private Bird bird;
     private Texture gameoverImg;
-    public int score;
+    private int score;
+    public int scoringTubes = 0;
+    public int numberOfTubes = 4;
 
     private boolean gameover;
     private Array<Tube> tubes;
+
+    private BitmapFont font;
+
+
+
+
+
 
 
 
@@ -37,6 +49,12 @@ public class PlayState extends State {
         groundPos2 = new Vector2((cam.position.x - cam.viewportWidth / 2) + ground.getWidth(), GROUND_Y_OFFSET);
         bird = new Bird(50, 200);
 
+        font = new BitmapFont();
+        font.getData().setScale(1f, 1f);
+
+
+
+
 
         tubes = new Array<Tube>();
         gameoverImg = new Texture("gameover.png");
@@ -46,7 +64,7 @@ public class PlayState extends State {
 
             gameover = false;
         }
-        cam.setToOrtho(false, CrappyBird.WIDTH / 2, CrappyBird.HEIGHT / 2);
+        cam.setToOrtho(false, WIDTH / 2, CrappyBird.HEIGHT / 2);
     }
 
 
@@ -57,6 +75,8 @@ public class PlayState extends State {
                 gsm.set(new PlayState(gsm));
             else
             bird.jump();
+
+
         }
     }
 
@@ -90,23 +110,40 @@ public class PlayState extends State {
         cam.update();
     }
 
+
+
     @Override
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(background, cam.position.x - (cam.viewportWidth / 2), 0);
+
+        sb.draw(background, cam.position.x - cam.viewportWidth / 2, 0);
         sb.draw(bird.getTexture(), bird.getPosition().x, bird.getPosition().y);
         for (Tube tube : tubes) {
             sb.draw(tube.getTopTube(), tube.getPosTopTube().x, tube.getPosTopTube().y);
             sb.draw(tube.getBottomTube(), tube.getPosBotTube().x, tube.getPosBotTube().y);
         }
 
+
         sb.draw(ground, groundPos1.x, groundPos1.y);
         sb.draw(ground, groundPos2.x, groundPos2.y);
         sb.draw(bird.getTexture(), bird.getPosition().x, bird.getPosition().y);
-        if(gameover)
+        if (gameover)
             sb.draw(gameoverImg, cam.position.x - gameoverImg.getWidth() / 2, cam.position.y);
+
+        Gdx.app.log("Score", String.valueOf(score));
+        if (scoringTubes < numberOfTubes - 1) {
+            scoringTubes++;
+        }
+
+        if(!gameover) {
+
+            font.draw(sb, "Score " + score , cam.position.x - 30, cam.position.y + 200);
+
+        }
+
         sb.end();
+
     }
 
     @Override

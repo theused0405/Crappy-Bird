@@ -2,10 +2,13 @@ package com.jay.crappybird.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jay.crappybird.CrappyBird;
+
+import static java.awt.Color.black;
 
 public class GameOver extends State {
 
@@ -16,6 +19,9 @@ public class GameOver extends State {
     private int highscore;
     private int prevHighScore;
     private static Preferences prefs;
+    private Texture playBtn;
+
+
 
     public GameOver(GameStateManager gsm, int score) {
         super(gsm);
@@ -23,6 +29,7 @@ public class GameOver extends State {
         cam.setToOrtho(false, CrappyBird.WIDTH / 2, CrappyBird.HEIGHT / 2);
         background = new Texture("bg.png");
         gameover = new Texture("gameover.png");
+        playBtn = new Texture("playbtn.png");
         font = new BitmapFont();
         prefs = Gdx.app.getPreferences("CrappyBird");
 
@@ -40,6 +47,8 @@ public class GameOver extends State {
         }
 
     }
+
+
 
     public static void setHighScore(int val) {
         prefs.putInteger("highScore", val);
@@ -64,14 +73,18 @@ public class GameOver extends State {
 
     }
 
+
     @Override
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(background, 0, 0);
-        sb.draw(gameover, cam.position.x - gameover.getWidth() / 2, cam.position.y);
-        font.draw(sb, "Player Score: " + score, cam.position.x, 170);
-        font.draw(sb, "Player HighScore: " + highscore, cam.position.x, 150);
+        sb.draw(playBtn ,40, 200);
+        sb.draw(gameover, 40, 300);
+        font.setColor(Color.GREEN);
+        font.draw(sb, "Player Score: " + score, 40, 170);
+        font.setColor(Color.CYAN);
+        font.draw(sb, "Player HighScore: " + highscore, 40, 150);
         sb.end();
 
     }
@@ -80,6 +93,7 @@ public class GameOver extends State {
     public void dispose() {
         background.dispose();
         gameover.dispose();
+        playBtn.dispose();
 
     }
 }
