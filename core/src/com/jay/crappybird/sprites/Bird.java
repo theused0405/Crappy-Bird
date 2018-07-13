@@ -9,7 +9,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
 public class Bird {
-    private static final int GRAVITY = -5;
+    //Gravity is how fast the bird drops
+    private static final int GRAVITY = -10;
     public static final int MOVEMENT = 100;
     private Vector3 position;
     private Vector3 velocity;
@@ -17,7 +18,7 @@ public class Bird {
     private Texture texture;
     private Rectangle bounds;
     public boolean colliding;
-    //public int x, y;
+
 
     private Animation birdAnimation;
     private Sound flap;
@@ -47,7 +48,8 @@ public class Bird {
     }
 
     public void jump() {
-        velocity.y = 100;
+        velocity.y = 180;
+        //how fast the bird moves up
         flap.play(0.5f);
     }
 

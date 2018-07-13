@@ -8,18 +8,18 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jay.crappybird.CrappyBird;
 
-import static java.awt.Color.black;
 
 public class GameOver extends State {
 
     private Texture background;
     private Texture gameover;
-    private BitmapFont font;
+    public BitmapFont font;
     private int score;
     private int highscore;
     private int prevHighScore;
     private static Preferences prefs;
-    private Texture playBtn;
+    public Texture restart;
+
 
 
 
@@ -27,9 +27,9 @@ public class GameOver extends State {
         super(gsm);
         this.score = score;
         cam.setToOrtho(false, CrappyBird.WIDTH / 2, CrappyBird.HEIGHT / 2);
-        background = new Texture("bg.png");
+        background = new Texture("bg2.png");
+        restart = new Texture("restart.png");
         gameover = new Texture("gameover.png");
-        playBtn = new Texture("playbtn.png");
         font = new BitmapFont();
         prefs = Gdx.app.getPreferences("CrappyBird");
 
@@ -49,7 +49,6 @@ public class GameOver extends State {
     }
 
 
-
     public static void setHighScore(int val) {
         prefs.putInteger("highScore", val);
         prefs.flush();
@@ -61,7 +60,7 @@ public class GameOver extends State {
 
     @Override
     public void handleInput() {
-        if(Gdx.input.justTouched()){
+        if (Gdx.input.justTouched()) {
             gsm.set(new PlayState(gsm));
         }
 
@@ -71,20 +70,22 @@ public class GameOver extends State {
     public void update(float dt) {
         handleInput();
 
+
+
     }
 
 
     @Override
     public void render(SpriteBatch sb) {
-        sb.setProjectionMatrix(cam.combined);
         sb.begin();
+        sb.setProjectionMatrix(cam.combined);
         sb.draw(background, 0, 0);
-        sb.draw(playBtn ,40, 200);
-        sb.draw(gameover, 40, 300);
-        font.setColor(Color.GREEN);
-        font.draw(sb, "Player Score: " + score, 40, 170);
-        font.setColor(Color.CYAN);
-        font.draw(sb, "Player HighScore: " + highscore, 40, 150);
+        sb.draw(gameover, 32, 300);
+        sb.draw(restart, 90, 200);
+        font.setColor(Color.FIREBRICK);
+        font.draw(sb, "Player Score: " + score, 60, 170);
+        font.setColor(Color.FIREBRICK);
+        font.draw(sb, "Player HighScore: " + highscore, 60, 150);
         sb.end();
 
     }
@@ -93,7 +94,8 @@ public class GameOver extends State {
     public void dispose() {
         background.dispose();
         gameover.dispose();
-        playBtn.dispose();
+        restart.dispose();
+
 
     }
 }

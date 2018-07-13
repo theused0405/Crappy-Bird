@@ -7,22 +7,24 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.Random;
 
 public class Tube {
-    public static final int TUBE_WIDTH = 52;
-    private static final int FLUCTUATION = 130;
-    private static final int TUBE_GAP = 100;
-    private static final int LOWEST_OPENING = 120;
+    public static final int TUBE_WIDTH = 70;
+    //Tube_WIDTH changes how close the tubes are together
+    public static final int FLUCTUATION = 160;
+    //FLUCTUATION changes how the tubes are randomized on the Y-axis
+    public static final int TUBE_GAP = 100;
+    //TUBE_GAP changes how large the opening between top and bottom tube
+    private static final int LOWEST_OPENING = 100;
+    //The top of the bottom tube cannot be below the screen. This adjusts the height of the bottom tube.
 
     private Texture topTube, bottomTube;
     private Vector2 posTopTube, posBotTube;
     private Rectangle boundsTop, boundsBot;
     private Random rand;
-    public int x, y;
-    public int width;
-    public int height;
+
 
     public Tube(float x) {
-        topTube = new Texture("toptube.png");
-        bottomTube = new Texture("bottomtube.png");
+        topTube = new Texture("toptube2.png");
+        bottomTube = new Texture("bottomtube3.png");
         rand = new Random();
 
         posTopTube = new Vector2(x, rand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
@@ -48,6 +50,7 @@ public class Tube {
         bottomTube.dispose();
     }
 
+    //Below are getters
     public Texture getTopTube() {
         return topTube;
     }
